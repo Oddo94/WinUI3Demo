@@ -17,6 +17,7 @@
     <None Remove="BudgetSummaryPage.xaml" />
     <None Remove="ExpensesPage.xaml" />
     <None Remove="IncomesPage.xaml" />
+    <None Remove="views\LoginWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +53,11 @@
     <ProjectReference Include="..\WinUI3DemoCore\WinUI3DemoCore.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="views\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="BudgetSummaryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -65,9 +71,6 @@
     <Page Update="IncomesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="views\" />
   </ItemGroup>
 
   <!--

@@ -18,6 +18,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using WinUI3Demo.views;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,7 +30,8 @@ namespace WinUI3Demo
     /// </summary>
     public partial class App : Application
     {
-        private Window? mainWindow;
+        //private Window? mainWindow;
+        private Window? loginWindow;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -46,7 +48,11 @@ namespace WinUI3Demo
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            mainWindow = new MainWindow();
+            //mainWindow = new MainWindow();
+            //mainWindow.Activate();
+
+            loginWindow = new LoginWindow();          
+            loginWindow.Activate();
 
             // Create a Frame to act as the navigation context and navigate to the first page
             //Frame rootFrame = new Frame();
@@ -60,7 +66,7 @@ namespace WinUI3Demo
             //mainWindow.Content = rootFrame;
 
             // Ensure the MainWindow is active
-            mainWindow.Activate();
+
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs args) {
