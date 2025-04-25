@@ -41,7 +41,6 @@ namespace WinUI3Demo {
             this.coreViewModel = new BudgetSummaryViewModel();
             this.coreModelWrapper = new LiveChartsViewModelWrapper(coreViewModel);
             contentFrame.Navigate(typeof(BudgetSummaryPage));
-
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
