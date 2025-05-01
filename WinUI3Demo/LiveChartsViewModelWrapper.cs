@@ -33,6 +33,9 @@ namespace WinUI3Demo {
         [ObservableProperty]
         private DateTimeOffset chartDate;
 
+        [ObservableProperty]
+        private string extractedUserSecret;
+
         private BudgetSummaryViewModel budgetSummaryViewModel;
 
 
@@ -113,5 +116,11 @@ namespace WinUI3Demo {
             this.Series.Clear();
                 this.Series.Add(new ColumnSeries<double>(values: seriesList.ToArray()));
             }
+
+        [RelayCommand]
+        public void DisplayUserSecret() {
+            budgetSummaryViewModel.extractDbConnectionString();
+            this.ExtractedUserSecret = budgetSummaryViewModel.dbConnectionString;
         }
+       }
     }

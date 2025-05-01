@@ -1,14 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 using WinUI3DemoCore.model;
+using WinUI3DemoCore.utils;
 
 namespace WinUI3DemoCore {
     public partial class BudgetSummaryViewModel : INotifyPropertyChanged {
         //[ObservableProperty]
         //public partial ObservableCollection<Expense> expenseList { get; set; }
         public ObservableCollection<DataPoint> Series { get; set; }
+
+        public string dbConnectionString { get; set;  }
 
         //public ICartesianAxis[] XAxes { get; set; }
 
@@ -84,40 +88,6 @@ namespace WinUI3DemoCore {
         }
 
         public void updateData(int userId, int year) {
-            //DataPoint point = this.Series[0];
-
-            //if (point.Value == 4000) {
-            //    this.Series = new ObservableCollection<DataPoint> {
-            //    new DataPoint("Jan", 1200),
-            //    new DataPoint("Feb", 1100),
-            //    new DataPoint("Mar", 1000),
-            //    new DataPoint("Apr", 900),
-            //    new DataPoint("May", 800),
-            //    new DataPoint("Jun", 700),
-            //    new DataPoint("Jul", 600),
-            //    new DataPoint("Aug", 500),
-            //    new DataPoint("Sep", 400),
-            //    new DataPoint("Oct", 300),
-            //    new DataPoint("Nov", 200),
-            //    new DataPoint("Dec", 100)
-            //};
-            //} else {
-            //    this.Series = new ObservableCollection<DataPoint> {
-            //    new DataPoint("Jan", 4000),
-            //    new DataPoint("Feb", 3000),
-            //    new DataPoint("Mar", 2000),
-            //    new DataPoint("Apr", 300),
-            //    new DataPoint("May", 500),
-            //    new DataPoint("Jun", 800),
-            //    new DataPoint("Jul", 600),
-            //    new DataPoint("Aug", 1000),
-            //    new DataPoint("Sep", 700),
-            //    new DataPoint("Oct", 1500),
-            //    new DataPoint("Nov", 1200),
-            //    new DataPoint("Dec", 2500)
-            //};
-            //}
-
             List<double> seriesList;
 
             switch (year) {
@@ -184,6 +154,12 @@ namespace WinUI3DemoCore {
                 new DataPoint("Dec", 500) };
                     break;
             }
+        }
+
+        public void extractDbConnectionString() {
+
+            this.dbConnectionString = new SecretReader().GetSecret();
+
         }
         public event PropertyChangedEventHandler PropertyChanged;
     }

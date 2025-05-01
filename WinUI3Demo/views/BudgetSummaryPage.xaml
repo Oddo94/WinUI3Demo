@@ -49,7 +49,8 @@ VerticalAlignment="Center"/>
             <Button Content="Lowercase axis" Click="LowercaseButton_Click"/>
             <Button Content="Change chart data" Click="ChangeChartDataButton_Click" 
   Command="{x:Bind coreModelWrapper.ChangeChartDataCommand}"/>
-            <TextBlock Text="This is a test message" x:Name="sampleTextBlock"/>
+            <Button Content="Display secret" Command="{x:Bind coreModelWrapper.DisplayUserSecretCommand}"/>
+            <TextBlock x:Name="sampleTextBlock" Text="{x:Bind coreModelWrapper.ExtractedUserSecret, Mode=OneWay}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="3">
             <DatePicker x:Name="yearDatePicker" Header="Select year"  MonthVisible="False" DayVisible="False" HorizontalAlignment="Left" VerticalAlignment="Center" Date="{x:Bind coreModelWrapper.ChartDate, Mode=TwoWay}"/>
