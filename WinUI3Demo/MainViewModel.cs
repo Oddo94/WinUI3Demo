@@ -1,4 +1,5 @@
-﻿using LiveChartsCore;
+﻿using Google.Protobuf.WellKnownTypes;
+using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
@@ -10,7 +11,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.Devices.PointOfService;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WinUI3Demo {
     public class MainViewModel {
@@ -62,26 +65,26 @@ namespace WinUI3Demo {
         public MainViewModel() {
             ExpenseList = new ObservableCollection<Expense>
           {
-                new Expense { name = "Coffee", type = "Variable", user= "Razvan", amount = 3.50, date = "2025-04-09" },
-                new Expense { name = "Lunch", type = "Variable", user= "Razvan", amount = 15.75, date = "2025-04-08" },
-                new Expense { name = "Transport", type = "Variable", user= "Razvan",  amount = 5.00, date = "2025-04-07" },
-                new Expense { name = "Coffee", type = "Variable", user= "Razvan",  amount = 3.50, date = "2025-04-09" },
-                new Expense {name = "Lunch", type = "Variable", user = "Razvan", amount = 15.75, date = "2025-04-08"},
-                new Expense {name = "Transport", type = "Variable", user = "Razvan", amount = 5.00, date = "2025-04-07"},
-                new Expense {name = "Coffee", type = "Variable", user = "Razvan", amount = 3.50, date = "2025-04-09"},
-                new Expense {name = "Lunch", type = "Variable", user = "Razvan", amount = 15.75, date = "2025-04-08"},
-                new Expense {name = "Transport", type = "Variable", user = "Razvan ", amount = 5.00, date = "2025-04-07"},
-                new Expense { name = "Coffee", type = "Variable", user= "Razvan", amount = 3.50, date = "2025-04-09" },
-                new Expense { name = "Lunch", type = "Variable", user= "Razvan", amount = 15.75, date = "2025-04-08" },
-                new Expense { name = "Transport", type = "Variable", user= "Razvan",  amount = 5.00, date = "2025-04-07" },
-                new Expense { name = "Coffee", type = "Variable", user= "Razvan",  amount = 3.50, date = "2025-04-09" },
-                new Expense {name = "Lunch", type = "Variable", user = "Razvan", amount = 15.75, date = "2025-04-08"},
-                new Expense {name = "Transport", type = "Variable", user = "Razvan", amount = 5.00, date = "2025-04-07"},
-                new Expense {name = "Coffee", type = "Variable", user = "Razvan", amount = 3.50, date = "2025-04-09"},
-                new Expense {name = "Lunch", type = "Variable", user = "Razvan", amount = 15.75, date = "2025-04-08"},
-                new Expense {name = "Transport", type = "Variable", user = "Razvan ", amount = 5.00, date = "2025-04-07"}
+                //new Expense { name = "Coffee", type = "Variable", value = 3.50, date = "2025-04-09" },
+                //new Expense { name = "Lunch", type = "Variable", value = 15.75, date = "2025-04-08" },
+                //new Expense { name = "Transport", type = "Variable",  value = 5.00, date = "2025-04-07" },
+                //new Expense { name = "Coffee", type = "Variable",  value = 3.50, date = "2025-04-09" },
+                //new Expense {name = "Lunch", type = "Variable", value = 15.75, date = "2025-04-08"},
+                //new Expense {name = "Transport", type = "Variable", value = 5.00, date = "2025-04-07"},
+                //new Expense {name = "Coffee", type = "Variable", value = 3.50, date = "2025-04-09"},
+                //new Expense {name = "Lunch", type = "Variable", value = 15.75, date = "2025-04-08"},
+                //new Expense {name = "Transport", type = "Variable", value = 5.00, date = "2025-04-07"},
+                //new Expense { name = "Coffee", type = "Variable", value = 3.50, date = "2025-04-09" },
+                //new Expense { name = "Lunch", type = "Variable", value = 15.75, date = "2025-04-08" },
+                //new Expense { name = "Transport", type = "Variable",  value = 5.00, date = "2025-04-07" },
+                //new Expense { name = "Coffee", type = "Variable",  value = 3.50, date = "2025-04-09" },
+                //new Expense {name = "Lunch", type = "Variable", value = 15.75, date = "2025-04-08"},
+                //new Expense {name = "Transport", type = "Variable", value = 5.00, date = "2025-04-07"},
+                //new Expense {name = "Coffee", type = "Variable", value = 3.50, date = "2025-04-09"},
+                //new Expense {name = "Lunch", type = "Variable", value = 15.75, date = "2025-04-08"},
+                //new Expense {name = "Transport", type = "Variable", value = 5.00, date = "2025-04-07"}
+                new Expense("Transport", "Variable", 5.00,"2025-04-07")
             };
-
             Series = new ISeries[] {
                  new ColumnSeries<int>(50, 100, 400, 300, 500, 800, 600, 1000, 700, 1500, 1200, 2500),
             };
