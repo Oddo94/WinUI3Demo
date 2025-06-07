@@ -21,6 +21,9 @@ using Windows.Foundation.Collections;
 using WinUI3Demo.views;
 using Microsoft.Extensions.Configuration;
 using WinUI3DemoCore;
+using Microsoft.Extensions.Hosting;
+using WinUI3DemoCore.view_model;
+using Microsoft.Extensions.DependencyInjection;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,6 +38,8 @@ namespace WinUI3Demo
         //private Window? mainWindow;
         private Window? loginWindow;
 
+        public static IHost AppHost { get; private set; }
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -42,6 +47,16 @@ namespace WinUI3Demo
         public App()
         {
             this.InitializeComponent();
+
+            AppHost = Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) => {
+                    services.AddSingleton<IBudgetItemViewModel, BudgetSummaryViewModel>();
+                    services.AddTransient<LiveChartsViewModelWrapper>();
+                    services.AddTransient<MainWindow>();
+                    services.AddTransient<LoginViewModel>();
+                    services.AddTransient<LoginWindow>();
+                })
+                .Build();
         }
 
         /// <summary>
@@ -53,7 +68,7 @@ namespace WinUI3Demo
             //mainWindow = new MainWindow();
             //mainWindow.Activate();
 
-            loginWindow = new LoginWindow();          
+            loginWindow = AppHost.Services.GetService<LoginWindow>();          
             loginWindow.Activate();
 
             // Create a Frame to act as the navigation context and navigate to the first page

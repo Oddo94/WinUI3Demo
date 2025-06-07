@@ -11,9 +11,10 @@ using WinUI3DemoCore.model;
 using WinUI3DemoCore.utils;
 using WinUI3DemoCore.utils.database;
 using WinUI3DemoCore.utils.enums;
+using WinUI3DemoCore.view_model;
 
 namespace WinUI3DemoCore {
-    public partial class BudgetSummaryViewModel : INotifyPropertyChanged {
+    public partial class BudgetSummaryViewModel : INotifyPropertyChanged, IBudgetItemViewModel {
         //[ObservableProperty]
         //public partial ObservableCollection<Expense> expenseList { get; set; }
         public ObservableCollection<DataPoint> Series { get; set; }
@@ -199,7 +200,7 @@ namespace WinUI3DemoCore {
         /// <param name="startDate">The start date of the time interval</param>
         /// <param name="endDate">The end date of the time interval</param>
         /// <returns>The DataTable object containing the retrieved expenses</returns>
-        public DataTable GetExpenseList(DateTimeOffset startDate, DateTimeOffset endDate) {
+        public DataTable GetItemList(DateTimeOffset startDate, DateTimeOffset endDate) {
             //this.dbConnectionString = new SecretReader().GetSecret(AppEnvironment.TEST);
 
             MySqlConnection conn = (MySqlConnection)new MySqlConnectionCustom().getConnection();
@@ -230,6 +231,14 @@ namespace WinUI3DemoCore {
             }
 
             return expenseDT;
+        }
+
+        public DataTable GetCategoriesPercentage(int month, int year) {
+            throw new NotImplementedException();
+        }
+
+        public DataTable GetMonthlyEvolution(int year) {
+            throw new NotImplementedException();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

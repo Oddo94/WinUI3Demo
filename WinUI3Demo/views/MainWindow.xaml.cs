@@ -1,26 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.Animations;
-using LiveChartsCore;
 using LiveChartsCore.Kernel.Sketches;
-using LiveChartsCore.SkiaSharpView;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using WinUI3DemoCore;
-using WinUI3DemoCore.model;
-using Axis = LiveChartsCore.SkiaSharpView.Axis;
+using System;
+using System.Collections.ObjectModel;
+using WinUI3DemoCore.view_model;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -30,16 +13,21 @@ namespace WinUI3Demo {
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainWindow : Window {
-        MainViewModel viewModel;
+        private readonly MainViewModel viewModel;
+        private readonly IBudgetItemViewModel coreViewModel;
+        private readonly LiveChartsViewModelWrapper coreModelWrapper;
 
-        BudgetSummaryViewModel coreViewModel;
-        LiveChartsViewModelWrapper coreModelWrapper;
-        public MainWindow() {
+        public MainWindow(IBudgetItemViewModel coreViewModel, LiveChartsViewModelWrapper coreModelWrapper) {
             this.InitializeComponent();
             this.viewModel = new MainViewModel();
 
-            this.coreViewModel = new BudgetSummaryViewModel();
-            this.coreModelWrapper = new LiveChartsViewModelWrapper(coreViewModel);
+            //this.coreViewModel = new BudgetSummaryViewModel();
+            //this.coreModelWrapper = new LiveChartsViewModelWrapper(coreViewModel);
+
+
+            this.coreViewModel = coreViewModel;
+            this.coreModelWrapper = coreModelWrapper;
+
             contentFrame.Navigate(typeof(BudgetSummaryPage));
         }
 
@@ -142,26 +130,26 @@ namespace WinUI3Demo {
             //        }
         //}
 
-        public void LowercaseButton_Click(object sender, RoutedEventArgs e) {
-            ICartesianAxis newAxis = new Axis() {
-                Labels = new string[] {
-                                "Jan",
-                                "Feb",
-                                "Mar",
-                                "Apr",
-                                "May",
-                                "Jun",
-                                "Jul",
-                                "Aug",
-                                "Sep",
-                                "Oct",
-                                "Nov",
-                                "Dec"
-                            }
-            };
+        //public void LowercaseButton_Click(object sender, RoutedEventArgs e) {
+        //    ICartesianAxis newAxis = new Axis() {
+        //        Labels = new string[] {
+        //                        "Jan",
+        //                        "Feb",
+        //                        "Mar",
+        //                        "Apr",
+        //                        "May",
+        //                        "Jun",
+        //                        "Jul",
+        //                        "Aug",
+        //                        "Sep",
+        //                        "Oct",
+        //                        "Nov",
+        //                        "Dec"
+        //                    }
+        //    };
 
-            setAxis(coreModelWrapper.XAxis, newAxis);
-        }
+        //    setAxis(coreModelWrapper.XAxis, newAxis);
+        //}
 
         public void ChangeChartDataButton_Click(object sender, RoutedEventArgs e) {
             //coreViewModel.updateData();

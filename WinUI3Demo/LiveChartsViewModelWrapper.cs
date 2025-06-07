@@ -1,22 +1,16 @@
-﻿using LiveChartsCore;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore;
+using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.Kernel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WinUI3DemoCore;
-using WinUI3DemoCore.model;
-using System.Collections;
-using LiveChartsCore.Kernel.Sketches;
-using System.Drawing;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using WinUI3Demo.model.request;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
+using WinUI3DemoCore.model;
+using WinUI3DemoCore.view_model;
 
 namespace WinUI3Demo {
     public partial class LiveChartsViewModelWrapper : ObservableObject {
@@ -41,10 +35,10 @@ namespace WinUI3Demo {
         [ObservableProperty]
         private string extractedUserSecret;
 
-        private BudgetSummaryViewModel budgetSummaryViewModel;
+        private readonly IBudgetItemViewModel budgetSummaryViewModel;
 
 
-        public LiveChartsViewModelWrapper(BudgetSummaryViewModel budgetSummaryViewModel) {
+        public LiveChartsViewModelWrapper(IBudgetItemViewModel budgetSummaryViewModel) {
 
             this.budgetSummaryViewModel = budgetSummaryViewModel;
             //Axis xAxis = new Axis();
@@ -110,7 +104,7 @@ namespace WinUI3Demo {
             //         break;
             // }
 
-            budgetSummaryViewModel.updateData(3, chartDate.Year);
+            //budgetSummaryViewModel.updateData(3, chartDate.Year);
 
 
             List<double> seriesList = budgetSummaryViewModel
@@ -125,13 +119,17 @@ namespace WinUI3Demo {
 
         [RelayCommand]
         public void DisplayUserSecret() {
-            budgetSummaryViewModel.extractDbConnectionString();
-            this.ExtractedUserSecret = budgetSummaryViewModel.dbConnectionString;
+            //budgetSummaryViewModel.extractDbConnectionString();
+            //this.ExtractedUserSecret = budgetSummaryViewModel.dbConnectionString;
+
+            Debug.WriteLine("Not implemented yet!");
+
+            return;
         }
 
         [RelayCommand]
         public void UpdateExpenseList() {
-            DataTable expenseDT = budgetSummaryViewModel.GetExpenseList(expenseStartDate, expenseEndDate);
+            DataTable expenseDT = budgetSummaryViewModel.GetItemList(expenseStartDate, expenseEndDate);
 
             if (expenseDT == null || expenseDT.Rows.Count == 0) {
                 Debug.WriteLine("NO EXPENSES FOUND FOR THE SPECIFIED TIME INTERVAL!");
@@ -143,10 +141,15 @@ namespace WinUI3Demo {
             foreach (DataRow currentExpense in expenseDT.Rows) {
                 string? name = currentExpense["Name"].ToString();
                 string? type = currentExpense["Type"].ToString();
-                double value = Double.TryParse(currentExpense["Value"].ToString(), out value) ? value : -1;
-                //bool isSuccess = Double.TryParse(currentExpense["Value"].ToString(), out value);
-                string? date = currentExpense["Date"].ToString();
+                
+                double value = new double();
+                bool hasParsedValue = Double.TryParse(currentExpense["Value"].ToString(), out value);
+                value = hasParsedValue ? value : -1;
 
+                DateTime extractedDate = new DateTime();
+                bool hasParsedDate = DateTime.TryParse(currentExpense["Date"].ToString(), out extractedDate);
+                string date = hasParsedDate ? extractedDate.ToString("yyyy-MM-dd") : "N/A";
+                
                 Expense expense = new Expense(name, type, value, date);
 
                 expenseList.Add(expense);

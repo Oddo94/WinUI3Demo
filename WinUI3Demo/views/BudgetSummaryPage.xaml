@@ -27,20 +27,21 @@
 
         <TextBlock Text="Budget summary" FontFamily="Comic Sans MS" FontSize="22" Grid.Row="0" Grid.Column="0"/>
         <!-- Start DatePicker -->
-        <DatePicker x:Name="startDatePicker" Header="Start date" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Date="{x:Bind coreModelWrapper.ExpenseStartDate, Mode=TwoWay}"/>
+        <CalendarDatePicker x:Name="startDatePicker" Header="Start date" DateFormat="{}{dayofweek.full}, {month.full} {day.integer}, {year.full}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Date="{x:Bind coreModelWrapper.ExpenseStartDate, Mode=TwoWay}"/>
 
         <!-- End DatePicker -->
-        <DatePicker x:Name="endDatePicker" Header="End date" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Date="{x:Bind coreModelWrapper.ExpenseEndDate, Mode=TwoWay}"/>
+        <CalendarDatePicker x:Name="endDatePicker" Header="End date" DateFormat="{}{dayofweek.full}, {month.full} {day.integer}, {year.full}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Date="{x:Bind coreModelWrapper.ExpenseEndDate, Mode=TwoWay}"/>
 
         <!-- Display expenses button -->
         <Button x:Name="displayExpenseButton" Content="Display expenses" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Command="{x:Bind coreModelWrapper.UpdateExpenseListCommand, Mode=OneWay}"/>
         
         <!-- TableView (DataGrid) below Start DatePicker -->
         <tableView:TableView x:Name="MyTableView"
-ItemsSource="{x:Bind coreModelWrapper.ExpenseList}"
+ItemsSource="{x:Bind coreModelWrapper.ExpenseList}"                          
 Height="300"
 Grid.Row="2"
-AutoGenerateColumns="True"  
+AutoGenerateColumns="True" 
+IsReadOnly="True"
 HorizontalAlignment="Center"
 VerticalAlignment="Center"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1">
