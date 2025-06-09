@@ -398,3 +398,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Test project auto-generated files
+WinUI3DemoTest/bin/*
+WinUI3DemoTest/obj/*
