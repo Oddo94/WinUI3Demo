@@ -85,6 +85,7 @@ namespace WinUI3Demo {
                 //new Expense {name = "Transport", type = "Variable", value = 5.00, date = "2025-04-07"}
                 new Expense("Transport", "Variable", 5.00,"2025-04-07")
             };
+
             Series = new ISeries[] {
                  new ColumnSeries<int>(50, 100, 400, 300, 500, 800, 600, 1000, 700, 1500, 1200, 2500),
             };
