@@ -15,14 +15,19 @@ using System.Drawing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WinUI3Demo.model.request;
+using System.Data;
+using System.Diagnostics;
 
 namespace WinUI3Demo {
     public partial class LiveChartsViewModelWrapper : ObservableObject {
         [ObservableProperty]
-        private ObservableCollection<ICartesianAxis> xAxis =  new ();
+        private ObservableCollection<ICartesianAxis> xAxis = new();
 
         [ObservableProperty]
         private ObservableCollection<ISeries> series;
+
+        [ObservableProperty]
+        private ObservableCollection<Expense> expenseList;
 
         [ObservableProperty]
         private DateTimeOffset expenseStartDate;
@@ -81,46 +86,71 @@ namespace WinUI3Demo {
                    values: values.ToArray()
             )
         };
-       }
+            this.expenseList = new ObservableCollection<Expense>();
+        }
 
-            [RelayCommand]
-            public void ChangeChartData() {
+        [RelayCommand]
+        public void ChangeChartData() {
 
 
-           //switch(yearlyDataRequest.Year) {
-           //    case 2025:
-           //         seriesList = new List<double>() { 2000, 1900, 1800, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900 };
-           //         break;
-           //     case 2024:
-           //         seriesList = new List<double>() { 100, 200, 300, 400 , 500, 600, 700, 800, 900, 1000, 1200 };
-           //         break;
+            //switch(yearlyDataRequest.Year) {
+            //    case 2025:
+            //         seriesList = new List<double>() { 2000, 1900, 1800, 1700, 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900 };
+            //         break;
+            //     case 2024:
+            //         seriesList = new List<double>() { 100, 200, 300, 400 , 500, 600, 700, 800, 900, 1000, 1200 };
+            //         break;
 
-           //     case 2023:
-           //         seriesList = new List<double>() { 1000, 1100, 1200, 1300, 1400, 1500, 1700,  1400, 1300, 1200, 1100, 1000  };
-           //         break;
+            //     case 2023:
+            //         seriesList = new List<double>() { 1000, 1100, 1200, 1300, 1400, 1500, 1700,  1400, 1300, 1200, 1100, 1000  };
+            //         break;
 
-           //     default:
-           //         seriesList = new List<double>() { 100, 200, 200, 100, 300, 300, 200, 400, 400, 300, 500, 500 };
-           //         break;
-           // }
+            //     default:
+            //         seriesList = new List<double>() { 100, 200, 200, 100, 300, 300, 200, 400, 400, 300, 500, 500 };
+            //         break;
+            // }
 
             budgetSummaryViewModel.updateData(3, chartDate.Year);
 
 
-           List<double> seriesList = budgetSummaryViewModel
-                .Series
-                .ToList()
-                .Select(dataPoint => dataPoint.Value)
-                .ToList();
+            List<double> seriesList = budgetSummaryViewModel
+                 .Series
+                 .ToList()
+                 .Select(dataPoint => dataPoint.Value)
+                 .ToList();
 
             this.Series.Clear();
-                this.Series.Add(new ColumnSeries<double>(values: seriesList.ToArray()));
-            }
+            this.Series.Add(new ColumnSeries<double>(values: seriesList.ToArray()));
+        }
 
         [RelayCommand]
         public void DisplayUserSecret() {
             budgetSummaryViewModel.extractDbConnectionString();
             this.ExtractedUserSecret = budgetSummaryViewModel.dbConnectionString;
         }
-       }
+
+        [RelayCommand]
+        public void UpdateExpenseList() {
+            DataTable expenseDT = budgetSummaryViewModel.GetExpenseList(expenseStartDate, expenseEndDate);
+
+            if (expenseDT == null || expenseDT.Rows.Count == 0) {
+                Debug.WriteLine("NO EXPENSES FOUND FOR THE SPECIFIED TIME INTERVAL!");
+                return;
+            }
+
+            expenseList.Clear();
+
+            foreach (DataRow currentExpense in expenseDT.Rows) {
+                string? name = currentExpense["Name"].ToString();
+                string? type = currentExpense["Type"].ToString();
+                double value = Double.TryParse(currentExpense["Value"].ToString(), out value) ? value : -1;
+                //bool isSuccess = Double.TryParse(currentExpense["Value"].ToString(), out value);
+                string? date = currentExpense["Date"].ToString();
+
+                Expense expense = new Expense(name, type, value, date);
+
+                expenseList.Add(expense);
+            }
+        }
     }
+}

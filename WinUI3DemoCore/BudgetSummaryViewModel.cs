@@ -1,10 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using WinUI3DemoCore.model;
 using WinUI3DemoCore.utils;
+using WinUI3DemoCore.utils.database;
+using WinUI3DemoCore.utils.enums;
 
 namespace WinUI3DemoCore {
     public partial class BudgetSummaryViewModel : INotifyPropertyChanged {
@@ -158,9 +164,74 @@ namespace WinUI3DemoCore {
 
         public void extractDbConnectionString() {
 
-            this.dbConnectionString = new SecretReader().GetSecret();
+            this.dbConnectionString = new SecretReader().GetSecret(AppEnvironment.TEST);
 
+            MySqlConnection conn = (MySqlConnection)new MySqlConnectionCustom().getConnection();
+
+
+            try {
+                
+                String sqlStatementGetExpenses = "SELECT * FROM expenses WHERE YEAR(date) = 2022";
+                MySqlCommand getExpensesCommand = new MySqlCommand(sqlStatementGetExpenses);
+                getExpensesCommand.Connection = conn;
+
+                MySqlDataAdapter dataAdapter = new MySqlDataAdapter(getExpensesCommand);
+
+                DataTable expensesDataTable = new DataTable();
+
+                conn.Open();
+                dataAdapter.Fill(expensesDataTable);
+
+                foreach(DataRow row in expensesDataTable.Rows) {
+                    Debug.WriteLine(String.Format("ExpenseID: {0}; UserID: {1}; Name: {2}; Type: {3}; Value: {4}; Date: {5}", row.ItemArray[0], row.ItemArray[1], row.ItemArray[2], row.ItemArray[3], row.ItemArray[4], row.ItemArray[5]));
+                }
+
+            } catch (MySqlException ex) {
+                Debug.WriteLine(ex.Message);
+            } finally {
+                conn.Close();
+            }
         }
+
+        /// <summary>
+        ///  Method for retrieving the list of expenses for the specified time interval 
+        /// </summary>
+        /// <param name="startDate">The start date of the time interval</param>
+        /// <param name="endDate">The end date of the time interval</param>
+        /// <returns>The DataTable object containing the retrieved expenses</returns>
+        public DataTable GetExpenseList(DateTimeOffset startDate, DateTimeOffset endDate) {
+            //this.dbConnectionString = new SecretReader().GetSecret(AppEnvironment.TEST);
+
+            MySqlConnection conn = (MySqlConnection)new MySqlConnectionCustom().getConnection();
+
+            DataTable expenseDT = new DataTable();
+
+            try {
+
+                String sqlStatementGetExpenses = @"SELECT exp.name AS Name, et.categoryName AS Type, exp.value AS Value, exp.date AS Date
+                                                   FROM expenses exp
+                                                   INNER JOIN expense_types et ON exp.type = et.categoryID
+                                                   WHERE exp.date BETWEEN @startDate AND @endDate";
+                
+                MySqlCommand getExpensesCommand = new MySqlCommand(sqlStatementGetExpenses);
+                getExpensesCommand.Parameters.AddWithValue("@startDate", startDate);
+                getExpensesCommand.Parameters.AddWithValue("@endDate", endDate);
+                getExpensesCommand.Connection = conn;
+
+                MySqlDataAdapter dataAdapter = new MySqlDataAdapter(getExpensesCommand);
+
+                conn.Open();
+                dataAdapter.Fill(expenseDT);
+
+            } catch (MySqlException ex) {
+                Debug.WriteLine(ex.Message);
+            } finally {
+                conn.Close();
+            }
+
+            return expenseDT;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

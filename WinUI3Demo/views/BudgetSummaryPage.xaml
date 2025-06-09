@@ -32,9 +32,12 @@
         <!-- End DatePicker -->
         <DatePicker x:Name="endDatePicker" Header="End date" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Date="{x:Bind coreModelWrapper.ExpenseEndDate, Mode=TwoWay}"/>
 
+        <!-- Display expenses button -->
+        <Button x:Name="displayExpenseButton" Content="Display expenses" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Command="{x:Bind coreModelWrapper.UpdateExpenseListCommand, Mode=OneWay}"/>
+        
         <!-- TableView (DataGrid) below Start DatePicker -->
         <tableView:TableView x:Name="MyTableView"
-ItemsSource="{x:Bind viewModel.ExpenseList}"
+ItemsSource="{x:Bind coreModelWrapper.ExpenseList}"
 Height="300"
 Grid.Row="2"
 AutoGenerateColumns="True"  

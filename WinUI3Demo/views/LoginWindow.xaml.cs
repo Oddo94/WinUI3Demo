@@ -39,7 +39,8 @@ namespace WinUI3Demo.views {
         public async void LoginButton_Click(object sender, RoutedEventArgs args) {
             loginViewModel.CheckCredentials();
 
-            LoginResponse loginResponse = loginViewModel.LoginResponse;
+            //LoginResponse loginResponse = loginViewModel.LoginResponse;
+            LoginResponse loginResponse = new LoginResponse(ResultCode.OK, "User successfully logged in");//ONLY FOR TESTING PURPOSES!!
             if (loginResponse.ResultCode == ResultCode.OK) {
                 MainWindow userDashboard = new MainWindow();
 
