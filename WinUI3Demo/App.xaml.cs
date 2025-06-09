@@ -38,7 +38,7 @@ namespace WinUI3Demo
         //private Window? mainWindow;
         private Window? loginWindow;
 
-        public static IHost AppHost { get; private set; }
+        public static IHost? AppHost { get; private set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -56,7 +56,7 @@ namespace WinUI3Demo
                     services.AddTransient<LoginViewModel>();
                     services.AddTransient<LoginWindow>();
                 })
-                .Build();
+                .Build();     
         }
 
         /// <summary>
@@ -68,8 +68,17 @@ namespace WinUI3Demo
             //mainWindow = new MainWindow();
             //mainWindow.Activate();
 
-            loginWindow = AppHost.Services.GetService<LoginWindow>();          
-            loginWindow.Activate();
+            if (AppHost == null) {
+                throw new InvalidOperationException("An error occurred when trying to setup the required objects.");
+            }
+
+            loginWindow = AppHost.Services.GetService<LoginWindow>();
+
+            if (loginWindow == null) {
+                throw new InvalidOperationException("Unable to initialize the login window!");
+            } else {
+                loginWindow.Activate();
+            }
 
             // Create a Frame to act as the navigation context and navigate to the first page
             //Frame rootFrame = new Frame();

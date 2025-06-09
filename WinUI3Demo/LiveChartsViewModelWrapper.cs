@@ -33,7 +33,7 @@ namespace WinUI3Demo {
         private DateTimeOffset chartDate;
 
         [ObservableProperty]
-        private string extractedUserSecret;
+        private string? extractedUserSecret;
 
         private readonly IBudgetItemViewModel budgetSummaryViewModel;
 
@@ -129,14 +129,14 @@ namespace WinUI3Demo {
 
         [RelayCommand]
         public void UpdateExpenseList() {
-            DataTable expenseDT = budgetSummaryViewModel.GetItemList(expenseStartDate, expenseEndDate);
+            DataTable expenseDT = budgetSummaryViewModel.GetItemList(ExpenseStartDate, ExpenseEndDate);
 
             if (expenseDT == null || expenseDT.Rows.Count == 0) {
                 Debug.WriteLine("NO EXPENSES FOUND FOR THE SPECIFIED TIME INTERVAL!");
                 return;
             }
 
-            expenseList.Clear();
+            ExpenseList.Clear();
 
             foreach (DataRow currentExpense in expenseDT.Rows) {
                 string? name = currentExpense["Name"].ToString();
@@ -152,7 +152,7 @@ namespace WinUI3Demo {
                 
                 Expense expense = new Expense(name, type, value, date);
 
-                expenseList.Add(expense);
+                ExpenseList.Add(expense);
             }
         }
     }

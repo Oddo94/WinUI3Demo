@@ -33,7 +33,7 @@ namespace WinUI3Demo {
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
             if (args.SelectedItem is NavigationViewItem selectedItem) {
-                String pageName = selectedItem.Tag.ToString();
+                String? pageName = selectedItem.Tag.ToString();
 
                 switch (pageName) {
                     case "incomesPage":
@@ -81,53 +81,53 @@ namespace WinUI3Demo {
         //    });
 
 
-            //        try {
-            //            if (coreModelWrapper.XAxis.Count == 0) {
-            //                coreModelWrapper.XAxis = new ObservableCollection<ICartesianAxis>() {
-            //            new Axis() {
-            //                Labels = new string[] {
-            //                    "Jan",
-            //                    "Feb",
-            //                    "Mar",
-            //                    "Apr",
-            //                    "May",
-            //                    "Jun",
-            //                    "Jul",
-            //                    "Aug",
-            //                    "Sep",
-            //                    "Oct",
-            //                    "Nov",
-            //                    "Dec"
-            //                }
-            //            }
+        //        try {
+        //            if (coreModelWrapper.XAxis.Count == 0) {
+        //                coreModelWrapper.XAxis = new ObservableCollection<ICartesianAxis>() {
+        //            new Axis() {
+        //                Labels = new string[] {
+        //                    "Jan",
+        //                    "Feb",
+        //                    "Mar",
+        //                    "Apr",
+        //                    "May",
+        //                    "Jun",
+        //                    "Jul",
+        //                    "Aug",
+        //                    "Sep",
+        //                    "Oct",
+        //                    "Nov",
+        //                    "Dec"
+        //                }
+        //            }
 
-            //        };
-            //            } else {
-            //            //coreModelWrapper.xAxis.Clear();
-            //            coreModelWrapper.XAxis = new ObservableCollection<ICartesianAxis>() {
-            //            new Axis() {
-            //                Labels = new string[] {
-            //                    "JAN",
-            //                    "FEB",
-            //                    "MAR",
-            //                    "APR",
-            //                    "MAY",
-            //                    "JUN",
-            //                    "JUL",
-            //                    "AUG",
-            //                    "SEP",
-            //                    "OCT",
-            //                    "NOV",
-            //                    "DEC"
-            //                }
-            //            }
+        //        };
+        //            } else {
+        //            //coreModelWrapper.xAxis.Clear();
+        //            coreModelWrapper.XAxis = new ObservableCollection<ICartesianAxis>() {
+        //            new Axis() {
+        //                Labels = new string[] {
+        //                    "JAN",
+        //                    "FEB",
+        //                    "MAR",
+        //                    "APR",
+        //                    "MAY",
+        //                    "JUN",
+        //                    "JUL",
+        //                    "AUG",
+        //                    "SEP",
+        //                    "OCT",
+        //                    "NOV",
+        //                    "DEC"
+        //                }
+        //            }
 
-            //        };
-            //        }
+        //        };
+        //        }
 
-            //        } catch (Exception ex) {
-            //            Console.WriteLine(ex.ToString());
-            //        }
+        //        } catch (Exception ex) {
+        //            Console.WriteLine(ex.ToString());
+        //        }
         //}
 
         //public void LowercaseButton_Click(object sender, RoutedEventArgs e) {
