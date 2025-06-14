@@ -1,28 +1,27 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WinUI3DemoCore.model;
 using WinUI3DemoCore.utils;
 
 namespace WinUI3DemoCore.view_model {
     public partial class LoginViewModel : ObservableObject {
         [ObservableProperty]
-        private String userName;
+        private String? userName;
 
         [ObservableProperty]
-        private String password;
+        private String? password;
 
         private LoginResponse loginResponse;
 
-        //[RelayCommand]
+        public LoginViewModel() {
+            this.userName = String.Empty;
+            this.password = String.Empty;
+            this.loginResponse = new LoginResponse();
+        }
+
         public void CheckCredentials() {
-            if ("Admin".Equals(userName) && "MySecretPassword12&@)".Equals(password)) {
-                this.loginResponse = new LoginResponse(ResultCode.OK, null);
+            if ("Admin".Equals(UserName) && "MySecretPassword12&@)".Equals(Password)) {
+                this.loginResponse = new LoginResponse(ResultCode.OK, String.Empty);
             } else {
                 this.loginResponse = new LoginResponse(ResultCode.ERROR, "Invalid username and/or password!");
             }
