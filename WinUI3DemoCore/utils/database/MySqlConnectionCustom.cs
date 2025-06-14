@@ -1,13 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WinUI3DemoCore.utils.enums;
-using MySql.Data;
 using System.Configuration;
+using System.Data;
+using WinUI3DemoCore.utils.enums;
 
 namespace WinUI3DemoCore.utils.database {
     public class MySqlConnectionCustom : DatabaseConnection {

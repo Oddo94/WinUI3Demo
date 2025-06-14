@@ -1,12 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using WinUI3DemoCore.model;
 using WinUI3DemoCore.utils;
 using WinUI3DemoCore.utils.database;
@@ -20,6 +16,8 @@ namespace WinUI3DemoCore {
         public ObservableCollection<DataPoint> Series { get; set; }
 
         public string dbConnectionString { get; set;  }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         //public ICartesianAxis[] XAxes { get; set; }
 
@@ -76,6 +74,8 @@ namespace WinUI3DemoCore {
             //      new Expense {name = "Lunch", type = "Variable", user = "Razvan", amount = 15.75, date = "2025-04-08"},
             //      new Expense {name = "Transport", type = "Variable", user = "Razvan ", amount = 5.00, date = "2025-04-07"}
             //  };
+            this.dbConnectionString = String.Empty;
+            this.PropertyChanged = delegate { };
 
             this.Series = new ObservableCollection<DataPoint> {
                 new DataPoint("Jan", 4000),
@@ -95,7 +95,7 @@ namespace WinUI3DemoCore {
         }
 
         public void updateData(int userId, int year) {
-            List<double> seriesList;
+            //List<double> seriesList;
 
             switch (year) {
                 case 2025:
@@ -240,7 +240,5 @@ namespace WinUI3DemoCore {
         public DataTable GetMonthlyEvolution(int year) {
             throw new NotImplementedException();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -32,7 +32,7 @@ namespace WinUI3DemoTest.login {
             LoginResponse loginResponse = loginViewModel.LoginResponse;
 
             ResultCode expectedResultCode = ResultCode.OK;
-            String expectedResponseMessage = null;
+            String expectedResponseMessage = String.Empty;
 
             ResultCode actualResultCode = loginResponse.ResultCode;
             String actualResponseMessage = loginResponse.ResponseMessage;
